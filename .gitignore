@@ -1,0 +1,13 @@
+*.log
+*.sqlite3
+.DS_Store
+node_modules/
+__pycache__/
+.vscode/
+.env
+.docker/
+.aws/
+.config/
+.ssh/
+.VirtualBox/
+.git-credentials.lock
