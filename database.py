@@ -7,11 +7,17 @@ def get_db_connection():
 
 def init_db():
     conn = get_db_connection()
-    with conn:
-        conn.execute('''CREATE TABLE IF NOT EXISTS tasks (
-                          id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          content TEXT NOT NULL
-                      )''')
+    conn.execute('''
+    CREATE TABLE IF NOT EXISTS user (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        password TEXT NOT NULL
+    )''')
+    conn.execute('''
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        content TEXT NOT NULL
+    )''')
     conn.close()
 
 if __name__ == '__main__':

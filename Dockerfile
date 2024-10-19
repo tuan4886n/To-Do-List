@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Gunicorn, a production-ready WSGI server
 RUN pip install gunicorn
 
+# Initialize the database
+RUN python database.py
+
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
