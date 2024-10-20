@@ -7,3 +7,12 @@ services:
       - "4000:80"
     environment:
       - FLASK_ENV=production
+      - DATABASE_URL=postgresql://tuan:tuanpham123@db:5432/todolist
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: tuan
+      POSTGRES_PASSWORD: tuanpham123
+      POSTGRES_DB: todolist
+    ports:
+      - "5432:5432"

@@ -1,23 +1,29 @@
-import sqlite3
+import psycopg2
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(
+        dbname="dbname",
+        user="username",
+        password="password",
+        host="db"
+    )
+    conn.autocommit = True
     return conn
 
 def init_db():
     conn = get_db_connection()
-    conn.execute('''
-    CREATE TABLE IF NOT EXISTS user (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        password TEXT NOT NULL
-    )''')
-    conn.execute('''
-    CREATE TABLE IF NOT EXISTS tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        content TEXT NOT NULL
-    )''')
+    with conn.cursor() as cur:
+        cur.execute('''
+        CREATE TABLE IF NOT EXISTS app_user (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(150) NOT NULL,
+            password VARCHAR(150) NOT NULL
+        )''')
+        cur.execute('''
+        CREATE TABLE IF NOT EXISTS tasks (
+            id SERIAL PRIMARY KEY,
+            content TEXT NOT NULL
+        )''')
     conn.close()
 
 if __name__ == '__main__':
