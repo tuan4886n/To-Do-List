@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    image: todolist/simple-website
+    build: .
+    ports:
+      - "4000:80"
+    environment:
+      - FLASK_ENV=production
