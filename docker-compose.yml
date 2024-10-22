@@ -9,7 +9,8 @@ services:
       - FLASK_ENV=production
       - DATABASE_URL=postgresql://tuan:tuanpham123@db:5432/todolist
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -23,6 +24,11 @@ services:
       - "5432:5432"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tuan -d todolist"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   app-network:
