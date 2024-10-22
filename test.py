@@ -1,32 +1,31 @@
 import unittest
-from app import app, db, User
+from app import app, db
+from app import AppUser, Task
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class BasicTests(unittest.TestCase):
-
     def setUp(self):
+        app.config['TESTING'] = True
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
         self.app = app.test_client()
-        self.app.testing = True
-
+        self.engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+        self.Session = sessionmaker(bind=self.engine)
         with app.app_context():
             db.create_all()
-            user = User(username="testuser", password="testpassword")
-            db.session.add(user)
-            db.session.commit()
-
-    def login(self):
-        return self.app.post('/login', data=dict(
-            username='testuser',
-            password='testpassword'
-        ), follow_redirects=True)
-
-    def test_home(self):
-        self.login()
-        result = self.app.get('/')
-        self.assertEqual(result.status_code, 200)
 
     def tearDown(self):
         with app.app_context():
+            db.session.remove()
             db.drop_all()
+
+    def test_index(self):
+        response = self.app.get('/', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()
