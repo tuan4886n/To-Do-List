@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Setting up the environment variable for database connection
-        DATABASE_URL = "postgresql://tuan:tuanpham123@localhost/todolist"
+        DATABASE_URL = "postgresql://username:password@db:5432/dbname"
         PATH = "$PATH:/tmp"  // Ensure PATH includes the directory where docker-compose is installed
         DOCKER_HOST = 'tcp://host.docker.internal:2375'  // Connects to Docker daemon over TCP
     }
@@ -11,24 +11,26 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Building the Docker image 
+                // Building the Docker image
                 sh 'docker-compose build'
             }
         }
         stage('Test') {
-            script {
+            steps {
+                script {
                     try {
                         // Running the test script inside the Docker container
                         sh 'docker-compose run web python tests.py'
                     } catch (Exception e) {
                         sh 'docker-compose logs'
-                        error("Tests failed: ${e.getMessage()}") // show messager if error
+                        error("Tests failed: ${e.getMessage()}")  // show messager if error
                     }
+                }
             }
         }
         stage('Deploy') {
             steps {
-                // Deploying the application 
+                // Deploying the application
                 sh 'docker-compose up -d'
             }
             post {
