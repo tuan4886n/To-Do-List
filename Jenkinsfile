@@ -16,9 +16,14 @@ pipeline {
             }
         }
         stage('Test') {
-            steps {
-                // Running the test script inside the Docker container
-                sh 'docker-compose run web python tests.py'
+            script {
+                    try {
+                        // Running the test script inside the Docker container
+                        sh 'docker-compose run web python tests.py'
+                    } catch (Exception e) {
+                        sh 'docker-compose logs'
+                        error("Tests failed: ${e.getMessage()}") // show messager if error
+                    }
             }
         }
         stage('Deploy') {
