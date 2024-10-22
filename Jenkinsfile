@@ -11,8 +11,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Building the Docker image
-                sh 'docker-compose build'
+                script {
+                    if (isUnix()) {
+                        env.PATH = "$PATH:/usr/local/bin"  // For MacOS/Linux
+                    } else {
+                        env.PATH = "$PATH:/path/to/docker-compose"  // Windows-specific
+                    }
+                    sh 'docker-compose build' // build docker image
+                }
             }
         }
         stage('Test') {
