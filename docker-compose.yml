@@ -8,6 +8,11 @@ services:
     environment:
       - FLASK_ENV=production
       - DATABASE_URL=postgresql://tuan:tuanpham123@db:5432/todolist
+    depends_on:
+      - db
+    networks:
+      - app-network
+
   db:
     image: postgres
     environment:
@@ -16,3 +21,9 @@ services:
       POSTGRES_DB: todolist
     ports:
       - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
