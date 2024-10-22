@@ -3,7 +3,7 @@ pipeline{
 
     environment{
         // setting up the evironment for database
-        DATABASE_URL=postgresql://tuan:tuanpham123@localhost/todolist  
+        DATABASE_URL= "postgresql://tuan:tuanpham123@localhost/todolist"  
     }
 
     stages{
