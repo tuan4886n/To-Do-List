@@ -4,6 +4,7 @@ pipeline {
     environment {
         // setting up environment for database
         DATABASE_URL = "postgresql://tuan:tuanpham123@localhost/todolist"
+        PATH = "$PATH:/tmp"  // update PATH to include where docker-compose is installed
     }
 
     stages {
