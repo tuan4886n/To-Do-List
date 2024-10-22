@@ -20,7 +20,7 @@ pipeline {
                 script {
                     try {
                         // Running the test script inside the Docker container
-                        sh 'docker-compose run web python tests.py'
+                        sh 'docker-compose run web python test.py'
                     } catch (Exception e) {
                         echo "Test failure details:"
                         sh 'docker-compose logs'
