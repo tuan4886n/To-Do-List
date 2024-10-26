@@ -3,12 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
+from prometheus_client import start_http_server, Summary
+import time
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_secret_key')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_SECURE'] = True
@@ -19,6 +21,8 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+# Create a metric to track time spent and requests made
+REQUEST_TIME = Summary('request_processing_second', 'Time spent processing request ')
 
 class AppUser(UserMixin, db.Model):
     __tablename__ = 'app_user'
@@ -110,6 +114,14 @@ def delete(task_id):
 @app.before_first_request
 def create_tables():
     db.create_all()
+
+@REQUEST_TIME.time()
+def process_request(t):
+    time.sleep(t)
+
+@app.before_first_request
+def start_prometheus():
+    start_http_server(8000)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -4,6 +4,7 @@
 node_modules/
 __pycache__/
 .vscode/
+.env
 .docker/
 .aws/
 .config/
