@@ -88,7 +88,7 @@ pipeline {
                 script {
                     try {
                         // Run Prometheus directly in a Jenkins pipeline to isolate issue
-                        sh 'docker run --rm -d -p 9090:9090 -v /var/jenkins_home/workspace/todolist-pipeline/prometheus.yml:/etc/prometheus/prometheus.yml --name test-prometheus prom/prometheus'
+                        sh 'docker run --rm -d -p 9090:9090 -v /var/jenkins_home/workspace/todolist-pipeline/shared/prometheus.yml:/etc/prometheus/prometheus.yml --name test-prometheus prom/prometheus'
                         sh 'docker ps'
                     } catch (Exception e) {
                         sh 'docker logs test-prometheus'
