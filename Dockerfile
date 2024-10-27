@@ -11,11 +11,13 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Gunicorn, a production-ready WSGI server, psycopg2 for PostgreSQL
-RUN pip install gunicorn psycopg2-binary 
+RUN pip install gunicorn psycopg2-binary
 
+# Copy the Prometheus configuration file into the container
+COPY prometheus.yml /etc/prometheus/prometheus.yml
 
-# Make port 80 available to the world outside this container, expose both Flask app and Promethus metric endpoint
-EXPOSE 80 8000 
+# Make ports 80 and 8000 available to the world outside this container
+EXPOSE 80 8000
 
 # Run the app with Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app", "--log-level", "debug"] 
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app", "--log-level", "debug"]
