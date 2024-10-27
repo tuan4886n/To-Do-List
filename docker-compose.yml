@@ -30,7 +30,9 @@ services:
       retries: 5
 
   prometheus:
-    build: .
+    image: prom/prometheus
+    environment:
+      - PROMETHEUS_CONFIG="{global:{scrape_interval:'15s'},scrape_configs:[{job_name:'flask_app',static_configs:[{targets:['web:8000']}]}]}"
     ports:
       - "9090:9090"
     networks:
