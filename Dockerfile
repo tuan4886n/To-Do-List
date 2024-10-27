@@ -13,9 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Gunicorn, a production-ready WSGI server, psycopg2 for PostgreSQL
 RUN pip install gunicorn psycopg2-binary
 
-# Copy the Prometheus configuration file into the container
-COPY prometheus.yml /etc/prometheus/prometheus.yml
-
 # Make ports 80 and 8000 available to the world outside this container
 EXPOSE 80 8000
 
