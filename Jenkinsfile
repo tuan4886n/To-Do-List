@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         // Setting up the environment variable for database connection
-        DATABASE_URL = "postgresql://username:password@db:5432/dbname"
-        PATH = "$PATH:/path/to/docker-compose"  // Ensure PATH includes the directory where docker-compose is installed
-        DOCKER_HOST = 'tcp://host.docker.internal:2375'  // Connects to Docker daemon over TCP
+        DATABASE_URL = "postgresql://username:password@db:5432/dbname" // Ensure PATH includes the directory where docker-compose is installed
+        PATH = "$PATH:/tmp"
+        DOCKER_HOST = 'tcp://host.docker.internal:2375' // Connects to Docker daemon over TCP
     }
 
     stages {
@@ -20,17 +20,21 @@ pipeline {
                     sh 'docker-compose build' // build docker image
                 }
             }
+        stage('Debug') {
+            steps {
+                sh 'pwd'
+                sh 'ls -l /var/jenkins_home/workspace/todolist-pipeline/'
+            }
         }
         stage('Test') {
             steps {
                 script {
                     try {
                         // Running the test script inside the Docker container
-                        sh 'docker-compose run web python test.py'
+                        sh 'docker-compose run web python tests.py'
                     } catch (Exception e) {
-                        echo "Test failure details:"
                         sh 'docker-compose logs'
-                        error("Tests failed: ${e.getMessage()}")  // show messager if error
+                        error("Tests failed: ${e.getMessage()}") // show messager if error
                     }
                 }
             }
