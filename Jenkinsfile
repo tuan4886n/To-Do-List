@@ -22,15 +22,6 @@ pipeline {
                 }
             }
         }
-        stage('Debug') {
-            steps {
-                dir('/var/jenkins_home/workspace/todolist-pipeline') {
-                    sh 'pwd'
-                    sh 'ls -l $(pwd)/prometheus.yml'
-                    sh 'cat $(pwd)/prometheus.yml'
-                }
-            }
-        }
         stage('Test') {
             steps {
                 script {
@@ -38,7 +29,6 @@ pipeline {
                         // Running the test script inside the Docker container
                         sh 'docker-compose run web python tests.py'
                     } catch (Exception e) {
-                        sh 'docker-compose logs'
                         error("Tests failed: ${e.getMessage()}") // show message if error
                     }
                 }
