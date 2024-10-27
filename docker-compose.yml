@@ -29,6 +29,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   prometheus:
     image: prom/prometheus
     volumes:
@@ -36,15 +37,15 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - app-network 
+      - app-network
 
   grafana:
     image: grafana/grafana
-    ports: 
+    ports:
       - "3000:3000"
     environment:
-      - GF_SERCURITY_ADMIN_USER=admin  
-      - GF_SERCURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
       - app-network
 

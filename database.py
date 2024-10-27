@@ -1,11 +1,14 @@
 import psycopg2
+import load_dotenv
+
+load_dotenv()
 
 def get_db_connection():
     conn = psycopg2.connect(
-        dbname="dbname",
-        user="username",
-        password="password",
-        host="db"
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST")
     )
     conn.autocommit = True
     return conn
