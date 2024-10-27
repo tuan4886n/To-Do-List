@@ -24,8 +24,11 @@ pipeline {
         }
         stage('Debug') {
             steps {
-                sh 'pwd'
-                sh 'ls -l /var/jenkins_home/workspace/todolist-pipeline/'
+                dir('/var/jenkins_home/workspace/todolist-pipeline') {
+                    sh 'pwd'
+                    sh 'ls -l $(pwd)/prometheus.yml'
+                    sh 'cat $(pwd)/prometheus.yml'
+                }
             }
         }
         stage('Test') {
