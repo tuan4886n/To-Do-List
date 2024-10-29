@@ -30,9 +30,9 @@ services:
       - app-network
 
   prometheus:
-    image: prom/prometheus
-    volumes:
-    - /var/jenkins_home/workspace/todolist-pipeline/prometheus.yml:/etc/prometheus/prometheus.yml
+    build:
+      context: .
+      dockerfile: Dockerfile.prometheus
     depends_on:
       db:
         condition: service_healthy
