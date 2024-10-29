@@ -27,7 +27,7 @@ pipeline {
                 script {
                     try {
                         // Running the test script inside the Docker container
-                        sh 'docker-compose run web python tests.py'
+                        sh 'docker-compose run web python test.py'
                     } catch (Exception e) {
                         sh 'docker-compose logs'
                         error("Tests failed: ${e.getMessage()}") // show message if error
