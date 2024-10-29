@@ -5,7 +5,7 @@ pipeline {
         // Setting up the environment variable for database connection
         DATABASE_URL = "postgresql://username:password@db:5432/dbname"
         // Ensure PATH includes the directory where docker-compose is installed
-        PATH = "$PATH:/tmp"
+        PATH = "$PATH:/usr/local/bin:/usr/bin:/bin"
         DOCKER_HOST = 'tcp://host.docker.internal:2375' // Connects to Docker daemon over TCP
     }
 
