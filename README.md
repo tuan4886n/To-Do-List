@@ -79,3 +79,5 @@ login with username: **admin**, password: **admin**
 #### Monitoring Builds
 - Monitor the Jenkins job console output to ensure each stage completes successfully.
 - Check logs and resolve any issues if a build fails.
+  ![image](https://github.com/user-attachments/assets/c66c2a8c-1921-4be6-9535-d5316d95ef68)
+
